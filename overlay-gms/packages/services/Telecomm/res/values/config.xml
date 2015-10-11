@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- Package name for the default in-call UI and dialer [DO NOT TRANSLATE] -->
+  <string name="ui_default_package" translatable="false">com.google.android.dialer</string>
+
+  <string name="incall_default_class" translatable="false">com.android.incallui.InCallServiceImpl</string>
+
+  <string name="dialer_default_class" translatable="false">com.google.android.dialer.extensions.GoogleDialtactsActivity</string>
+
+</resources>
