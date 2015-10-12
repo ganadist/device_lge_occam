@@ -33,6 +33,14 @@ PRODUCT_PACKAGES := \
 $(call inherit-product, device/lge/mako/full_mako.mk)
 $(call inherit-product, vendor/google/product/gms.mk)
 
+# reduce system image size
+
+ifeq ($(TARGET_BUILD_VARIANT),user)
+  PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	ro.adb.secure=1 \
+
+endif
+
 PRODUCT_DEFAULT_DEV_CERTIFICATE := device/lge/occam/security/release-keys
 
 PRODUCT_NAME := occam
