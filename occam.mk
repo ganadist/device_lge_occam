@@ -13,11 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-PRODUCT_PACKAGE_OVERLAYS := device/lge/occam/overlay-gms
+PRODUCT_PACKAGE_OVERLAYS := \
+	device/lge/occam/overlay-occam \
+	device/lge/occam/overlay-nexus \
+	device/lge/occam/overlay-gms \
+	device/lge/occam/overlay-car \
 
 PRODUCT_PROPERTY_OVERRIDES := \
+	ro.com.android.dateformat=MM-dd-yyyy \
 	ro.com.android.dataroaming=false \
 	net.bt.name=Nexus4 \
+	ro.config.ringtone=Titania.ogg \
+	ro.config.notification_sound=Tethys.ogg \
+	ro.config.alarm_alert=Oxygen.ogg \
+
+#	persist.sys.debug.multi_window=1 \ # enable multi window
 
 # override package for reduce system image
 PRODUCT_PACKAGES := \
@@ -28,12 +38,14 @@ PRODUCT_PACKAGES := \
 	PrebuiltBugleStub \
 	PrebuiltKeepStub \
 
-#	persist.sys.debug.multi_window=1 \ # enable multi window
+PRODUCT_PACKAGES += \
+	PartnerBookmarksProvider \
+	CellBroadcastReceiver \
 
-$(call inherit-product, device/lge/mako/full_mako.mk)
 $(call inherit-product, vendor/google/product/gms.mk)
-
-# reduce system image size
+$(call inherit-product, vendor/google/product/gms-nexus.mk)
+$(call inherit-product, device/lge/mako/full_mako.mk)
+$(call inherit-product, frameworks/base/data/sounds/AudioPackage13.mk)
 
 ifeq ($(TARGET_BUILD_VARIANT),user)
   PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -41,6 +53,13 @@ ifeq ($(TARGET_BUILD_VARIANT),user)
 
 endif
 
+PRODUCT_PROPERTY_OVERRIDES += \
+	keyguard.no_require_sim=true \
+	af.fast_track_multiplier=1 \
+	ro.build.expect.bootloader=MAKOZ30f \
+	ro.build.expect.baseband=M9615A-CEFWMAZM-2.0.1701.07 \
+
+# reduce system image size
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_LOCALES := en_US cs_CZ da_DK de_AT de_CH de_DE de_LI el_GR en_AU en_CA en_GB en_NZ en_SG eo_EU es_ES fr_CA fr_CH fr_BE fr_FR it_CH it_IT ja_JP ko_KR nb_NO nl_BE nl_NL pl_PL pt_PT ru_RU sv_SE tr_TR zh_CN zh_HK zh_TW am_ET hi_IN
 

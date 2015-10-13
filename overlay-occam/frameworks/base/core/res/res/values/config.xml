@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="config_mms_user_agent" translatable="false">Nexus4</string>
+  <string name="config_mms_user_agent_profile_url" translatable="false">http://gsm.lge.com/html/gsm/20130914.xml</string>
+</resources>

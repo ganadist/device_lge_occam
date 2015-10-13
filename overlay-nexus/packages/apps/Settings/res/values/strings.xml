@@ -67,5 +67,4 @@
 
     <!-- Full package name of OEM preferred device feedback reporter [DO NOT TRANSLATE] -->
     <string name="oem_preferred_feedback_reporter" translatable="false">com.google.android.gms</string>
-
 </resources>
