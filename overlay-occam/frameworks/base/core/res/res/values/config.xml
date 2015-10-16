@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+  <!-- Set this true only if the device has separate attention and notification lights. -->
+  <bool name="config_useAttentionLight">true</bool>
+
+  <!-- Control the behavior when the user short presses the power button.
+          0 - Nothing
+          1 - Go to sleep (doze)
+          2 - Really go to sleep (don't doze)
+          3 - Really go to sleep and go home (don't doze)
+  -->
+  <integer name="config_shortPressOnPowerBehavior">1</integer>
+
+
+  <!-- Control the behavior when the user long presses the power button.
+          0 - Nothing
+          1 - Global actions menu
+          2 - Power off (with confirmation)
+          3 - Power off (without confirmation)
+  -->
+  <integer name="config_longPressOnPowerBehavior">1</integer>
+
+  <!-- Control the behavior when the user double presses the power button.
+          0 - Nothing
+          1 - Toggle theater mode setting
+          2 - Brightness boost
+          3 - Launch camera
+  -->
+  <integer name="config_doublePressOnPowerBehavior">3</integer>
+
+  <!-- Control the behavior when the user double presses the power button.
+          0 - Nothing
+          1 - Toggle theater mode setting
+          2 - Brightness boost
+          3 - Launch camera
+  -->
+  <integer name="config_triplePressOnPowerBehavior">0</integer>
+
+  <!-- Control the behavior when the user double-taps the home button.
+          0 - Nothing
+          1 - Recent apps view in SystemUI
+          2 - Launch Camera
+  -->
+  <integer name="config_doubleTapOnHomeBehavior">2</integer>
+
   <string name="config_mms_user_agent" translatable="false">Nexus4</string>
   <string name="config_mms_user_agent_profile_url" translatable="false">http://gsm.lge.com/html/gsm/20130914.xml</string>
 </resources>
