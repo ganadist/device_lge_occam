@@ -1,0 +1,6 @@
+<resources>
+  <bool name="config_recents_use_hardware_layers">true</bool>
+  <bool name="doze_display_state_supported">true</bool>
+  <bool name="doze_pulse_on_pick_up">true</bool>
+  <bool name="config_show4GForLTE">false</bool>
+</resources>
