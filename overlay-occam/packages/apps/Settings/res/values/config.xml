@@ -1,0 +1,3 @@
+<resources>
+  <bool name="config_allow_edit_carrier_enabled">true</bool>
+</resources>
