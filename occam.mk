@@ -29,6 +29,11 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 #	persist.sys.debug.multi_window=1 \ # enable multi window
 
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.telephony.default_network=3 \
+	ro.ril.def.preferred.network=3 \
+	ro.com.android.mobiledata=false \
+
 # override package for reduce system image
 PRODUCT_PACKAGES := \
 	EditorsDocsStub \
