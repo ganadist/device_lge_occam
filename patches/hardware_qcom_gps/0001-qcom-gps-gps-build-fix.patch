@@ -1,0 +1,29 @@
+From e1ef7ea4f232d5c3dde6be431f27c52da92a5767 Mon Sep 17 00:00:00 2001
+From: Young-Ho Cha <ganadist@gmail.com>
+Date: Wed, 21 Oct 2015 22:05:50 +0900
+Subject: [PATCH] qcom/gps: gps build fix
+
+Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
+---
+ Android.mk | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index 7b7c8d5..02c05f1 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -3,10 +3,7 @@ LOCAL_PATH := $(call my-dir)
+ 
+ ifeq ($(BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET),true)
+ 
+-ifneq ($(filter msm8960 apq8064 ,$(TARGET_BOARD_PLATFORM)),)
+-    #For msm8960/apq8064 targets
+-    include $(call all-named-subdir-makefiles,msm8960)
+-else ifneq ($(filter msm8974 ,$(TARGET_BOARD_PLATFORM)),)
++ifneq ($(filter msm8974 msm8960 ,$(TARGET_BOARD_PLATFORM)),)
+     #For msm8974 target
+     include $(call all-named-subdir-makefiles,msm8974)
+ else ifneq ($(filter msm8084 ,$(TARGET_BOARD_PLATFORM)),)
+-- 
+2.6.1
+

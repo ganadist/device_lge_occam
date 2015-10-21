@@ -1,0 +1,26 @@
+From 35f27fd1c60ad8815f607beba42a29f7e87ae19e Mon Sep 17 00:00:00 2001
+From: Young-Ho Cha <ganadist@gmail.com>
+Date: Wed, 21 Oct 2015 22:10:32 +0900
+Subject: [PATCH 1/2] Settings: add multiwindow setting on user build
+
+Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
+---
+ src/com/android/settings/DevelopmentSettings.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/DevelopmentSettings.java b/src/com/android/settings/DevelopmentSettings.java
+index 4a4c51d..3a20502 100644
+--- a/src/com/android/settings/DevelopmentSettings.java
++++ b/src/com/android/settings/DevelopmentSettings.java
+@@ -817,7 +817,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
+     }
+ 
+     private static boolean showEnableMultiWindowPreference() {
+-        return !"user".equals(Build.TYPE);
++        return true; //!"user".equals(Build.TYPE);
+     }
+ 
+     private void setEnableMultiWindow(boolean value) {
+-- 
+2.6.1
+
