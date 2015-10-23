@@ -17,7 +17,8 @@ PRODUCT_PACKAGE_OVERLAYS := \
 	device/lge/occam/overlay-occam \
 	device/lge/occam/overlay-nexus \
 	device/lge/occam/overlay-gms \
-	device/lge/occam/overlay-car \
+
+#	device/lge/occam/overlay-car \
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	ro.com.android.dateformat=MM-dd-yyyy \
