@@ -21,3 +21,5 @@ do
 done
 
 rm -f ${TOP}/frameworks/base/data/sounds/AllAudio.mk
+rm -rf ${TOP}/hardware/qcom/gps/msm8084
+rm -rf ${TOP}/hardware/qcom/gps/msm8974
