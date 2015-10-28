@@ -1,4 +1,4 @@
-From 348b289f8ac0c30e2fd8cc082eea402d55b2dc5d Mon Sep 17 00:00:00 2001
+From 3f41380212229baa533d2997025d2dc4d761664d Mon Sep 17 00:00:00 2001
 From: Young-Ho Cha <ganadist@gmail.com>
 Date: Wed, 28 Oct 2015 17:50:20 +0900
 Subject: [PATCH] pm: do not verify system apps signatures
@@ -257,7 +257,7 @@ index 0000000..4bd71d7
 +    }
 +}
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index ed7a2a3..a0a1764 100644
+index ed7a2a3..15c96d8 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
 @@ -1027,6 +1027,13 @@ public class PackageParser {
@@ -281,7 +281,7 @@ index ed7a2a3..a0a1764 100644
 +        final String systemDir = Environment.getRootDirectory().getPath();
 +        final boolean isSystemApk = apkFile.getPath()
 +                .startsWith(systemDir);
-+        if (isSystemApk && pkg.mCertificates == null) {
++        if (isSystemApk) {
 +            try {
 +                java.util.jar.JarFile jFile = new java.util.jar.JarFile(apkPath, false);
 +
