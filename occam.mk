@@ -43,6 +43,15 @@ PRODUCT_PACKAGES := \
 	NewsstandStub \
 	PrebuiltBugleStub \
 	PrebuiltKeepStub \
+	BooksStub \
+	CloudPrint2Stub \
+	DriveStub \
+	FitnessPrebuiltStub \
+	MapsStub \
+	PlusOneStub \
+	TranslateStub \
+	VideosStub \
+	YouTubeStub \
 
 PRODUCT_PACKAGES += \
 	PartnerBookmarksProvider \
