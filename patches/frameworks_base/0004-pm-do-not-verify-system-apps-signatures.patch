@@ -1,4 +1,4 @@
-From 3f41380212229baa533d2997025d2dc4d761664d Mon Sep 17 00:00:00 2001
+From 7b3d6d8ee87de27ddd61424c9ca4f0e480197ebf Mon Sep 17 00:00:00 2001
 From: Young-Ho Cha <ganadist@gmail.com>
 Date: Wed, 28 Oct 2015 17:50:20 +0900
 Subject: [PATCH] pm: do not verify system apps signatures
@@ -257,23 +257,23 @@ index 0000000..4bd71d7
 +    }
 +}
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index ed7a2a3..15c96d8 100644
+index ed7a2a3..f5b1831 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
-@@ -1027,6 +1027,13 @@ public class PackageParser {
-     public void collectManifestDigest(Package pkg) throws PackageParserException {
-         pkg.manifestDigest = null;
- 
-+        final String apkPath = pkg.codePath;
-+        final String systemDir = Environment.getRootDirectory().getPath();
-+        final boolean isSystemApk = apkPath.startsWith(systemDir);
-+        if (isSystemApk) {
-+            return;
-+        }
-+
-         // TODO: extend to gather digest for split APKs
-         try {
-             final StrictJarFile jarFile = new StrictJarFile(pkg.baseCodePath);
+@@ -1038,6 +1038,13 @@ public class PackageParser {
+             } finally {
+                 jarFile.close();
+             }
++        } catch (SecurityException e) {
++            final String apkPath = pkg.baseCodePath;
++            final String systemDir = Environment.getRootDirectory().getPath();
++            final boolean isSystemApk = apkPath.startsWith(systemDir);
++            if (!isSystemApk) {
++                throw e;
++            }
+         } catch (IOException | RuntimeException e) {
+             throw new PackageParserException(INSTALL_PARSE_FAILED_MANIFEST_MALFORMED,
+                     "Failed to collect manifest digest");
 @@ -1067,6 +1074,39 @@ public class PackageParser {
              throws PackageParserException {
          final String apkPath = apkFile.getAbsolutePath();
