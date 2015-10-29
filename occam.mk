@@ -54,6 +54,7 @@ PRODUCT_PACKAGES := \
 	YouTubeStub \
 
 PRODUCT_PACKAGES += \
+	FakeNexusProvision \
 	PartnerBookmarksProvider \
 	CellBroadcastReceiver \
 
