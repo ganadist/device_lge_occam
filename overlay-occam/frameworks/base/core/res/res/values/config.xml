@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="default_sms_application" translatable="false">com.google.android.apps.messaging</string>
 
   <!-- Set this true only if the device has separate attention and notification lights. -->
   <bool name="config_useAttentionLight">true</bool>

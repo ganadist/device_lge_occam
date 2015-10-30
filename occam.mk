@@ -41,7 +41,7 @@ PRODUCT_PACKAGES := \
 	EditorsSheetsStub \
 	EditorsSlidesStub \
 	NewsstandStub \
-	PrebuiltBugleStub \
+	HangoutsStub \
 	PrebuiltKeepStub \
 	BooksStub \
 	CloudPrint2Stub \
@@ -57,6 +57,7 @@ PRODUCT_PACKAGES += \
 	FakeNexusProvision \
 	PartnerBookmarksProvider \
 	CellBroadcastReceiver \
+	OccamLayout \
 
 $(call inherit-product, vendor/google/product/gms.mk)
 $(call inherit-product, vendor/google/product/gms-nexus.mk)
