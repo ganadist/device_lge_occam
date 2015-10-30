@@ -61,6 +61,7 @@ PRODUCT_PACKAGES += \
 
 $(call inherit-product, vendor/google/product/gms.mk)
 $(call inherit-product, vendor/google/product/gms-nexus.mk)
+$(call inherit-product, vendor/google/product/facelock.mk)
 $(call inherit-product, device/lge/mako/full_mako.mk)
 $(call inherit-product, frameworks/base/data/sounds/AudioPackage13.mk)
 
