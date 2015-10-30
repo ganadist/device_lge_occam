@@ -34,6 +34,9 @@
     <favorite packageName="com.google.android.youtube" className="com.google.android.youtube.app.honeycomb.Shell$HomeActivity"/>
     <favorite packageName="com.google.android.apps.genie.geniewidget" className="com.google.android.apps.genie.geniewidget.activities.NewsActivity"/>
     <favorite packageName="com.google.android.talk" className="com.google.android.talk.SigningInActivity"/>
+    <favorite packageName="com.google.android.apps.translate" className="com.google.android.apps.translate.TranslateActivity"/>
+    <favorite packageName="com.google.android.apps.fitness" className="com.google.android.apps.fitness.welcome.WelcomeActivity"/>
+    <favorite packageName="com.google.android.apps.cavalry" className="com.google.android.apps.cavalry.activities.InitActivity"/>
   </folder>
   <!-- Create folder -->
   <!-- Docs, Sheets, Slides, Drive, Keep -->
