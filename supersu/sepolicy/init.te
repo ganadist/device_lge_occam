@@ -1,0 +1,2 @@
+# for loop mount
+allow init loop_device:blk_file write;

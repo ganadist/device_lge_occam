@@ -1,0 +1,13 @@
+on init
+    # add PATH for SuperSU
+    export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin:/su/bin
+
+on post-fs-data
+    chmod 0600 /data/su.img
+    # mount SuperSU image
+    mount ext4 loop@/data/su.img /su noatime
+
+service daemonsu /su/bin/daemonsu --auto-daemon
+    class late_start
+    user root
+    oneshot
