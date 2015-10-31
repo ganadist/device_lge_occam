@@ -59,6 +59,9 @@ PRODUCT_PACKAGES += \
 	CellBroadcastReceiver \
 	OccamLayout \
 
+PRODUCT_COPY_FILES := \
+	device/lge/occam/init.occam.rc:root/init.occam.rc \
+
 $(call inherit-product, vendor/google/product/gms.mk)
 $(call inherit-product, vendor/google/product/gms-nexus.mk)
 $(call inherit-product, vendor/google/product/facelock.mk)
@@ -98,3 +101,6 @@ PRODUCT_DEFAULT_DEV_CERTIFICATE := device/lge/occam/security/release-keys
 PRODUCT_NAME := occam
 PRODUCT_BRAND := Google
 PRODUCT_MODEL := Nexus 4
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	ro.product.name=$(PRODUCT_NAME) \

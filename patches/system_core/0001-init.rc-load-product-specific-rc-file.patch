@@ -1,0 +1,25 @@
+From d142ab94f6effc225cf0e6deed243b4e606d00b5 Mon Sep 17 00:00:00 2001
+From: Young-Ho Cha <ganadist@gmail.com>
+Date: Sat, 31 Oct 2015 14:28:54 +0900
+Subject: [PATCH] init.rc: load product specific rc file
+
+Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
+---
+ rootdir/init.rc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index b71908c..545a6ac 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -7,6 +7,7 @@
+ import /init.environ.rc
+ import /init.usb.rc
+ import /init.${ro.hardware}.rc
++import /init.${ro.product.name}.rc
+ import /init.${ro.zygote}.rc
+ import /init.trace.rc
+ 
+-- 
+2.6.1
+
