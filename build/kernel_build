@@ -1,0 +1,24 @@
+#!/bin/sh
+
+kernel_make() {
+  local CROSS_COMPILE
+  CROSS_COMPILE="${ANDROID_BUILD_TOP}/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-"
+  if [ -n ${USE_CCACHE} ]; then
+    CROSS_COMPILE="${ANDROID_BUILD_TOP}/prebuilts/misc/linux-x86/ccache/ccache $CROSS_COMPILE"
+  fi
+  (
+    cd ${ANDROID_BUILD_TOP}
+    make -C kernel/msm O=$OUT/obj/KERNEL_OBJ ARCH=arm \
+	CROSS_COMPILE="${CROSS_COMPILE}" "$@"
+  )
+
+}
+
+kernel_build() {
+  kernel_make mrproper "$@" && \
+      kernel_make mako_defconfig "$@" && \
+      kernel_make zImage "$@" && \
+      cp -f $OUT/obj/KERNEL_OBJ/arch/arm/boot/zImage ${ANDROID_BUILD_TOP}/device/lge/mako-kernel/kernel
+}
+
+kernel_build "$@"
