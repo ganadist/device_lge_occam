@@ -1,4 +1,5 @@
 #!/bin/sh
+KERNEL_OUT=${OUT}/obj/KERNEL_OBJ
 
 kernel_make() {
   local CROSS_COMPILE
@@ -8,17 +9,28 @@ kernel_make() {
   fi
   (
     cd ${ANDROID_BUILD_TOP}
-    make -C kernel/msm O=$OUT/obj/KERNEL_OBJ ARCH=arm \
-	CROSS_COMPILE="${CROSS_COMPILE}" "$@"
+    make -C kernel/msm O=${KERNEL_OUT} ARCH=arm \
+        CROSS_COMPILE="${CROSS_COMPILE}" -j$(getconf _NPROCESSORS_ONLN)  "$@"
   )
 
 }
 
 kernel_build() {
+  rm -rf ${KERNEL_OUT}
+  mkdir -p ${KERNEL_OUT}
   kernel_make mrproper "$@" && \
       kernel_make mako_defconfig "$@" && \
       kernel_make zImage "$@" && \
-      cp -f $OUT/obj/KERNEL_OBJ/arch/arm/boot/zImage ${ANDROID_BUILD_TOP}/device/lge/mako-kernel/kernel
+      cp -f ${KERNEL_OUT}/arch/arm/boot/zImage ${ANDROID_BUILD_TOP}/device/lge/mako-kernel/kernel
 }
 
-kernel_build "$@"
+case "$@" in
+  'mako_defconfig')
+      kernel_make mrproper && \
+          kernel_make mako_defconfig  && \
+          kernel_make savedefconfig
+    ;;
+  *)
+    kernel_build "$@"
+    ;;
+esac
