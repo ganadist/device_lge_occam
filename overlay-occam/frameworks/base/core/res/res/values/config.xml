@@ -2,49 +2,47 @@
 <resources>
   <string name="default_sms_application" translatable="false">com.google.android.apps.messaging</string>
 
-  <!-- Set this true only if the device has separate attention and notification lights. -->
-  <bool name="config_useAttentionLight">true</bool>
-
-  <!-- Control the behavior when the user short presses the power button.
-          0 - Nothing
-          1 - Go to sleep (doze)
-          2 - Really go to sleep (don't doze)
-          3 - Really go to sleep and go home (don't doze)
-  -->
-  <integer name="config_shortPressOnPowerBehavior">1</integer>
-
-
-  <!-- Control the behavior when the user long presses the power button.
-          0 - Nothing
-          1 - Global actions menu
-          2 - Power off (with confirmation)
-          3 - Power off (without confirmation)
-  -->
-  <integer name="config_longPressOnPowerBehavior">1</integer>
-
-  <!-- Control the behavior when the user double presses the power button.
-          0 - Nothing
-          1 - Toggle theater mode setting
-          2 - Brightness boost
-          3 - Launch camera
-  -->
-  <integer name="config_doublePressOnPowerBehavior">3</integer>
-
-  <!-- Control the behavior when the user double presses the power button.
-          0 - Nothing
-          1 - Toggle theater mode setting
-          2 - Brightness boost
-          3 - Launch camera
-  -->
-  <integer name="config_triplePressOnPowerBehavior">0</integer>
-
-  <!-- Control the behavior when the user double-taps the home button.
-          0 - Nothing
-          1 - Recent apps view in SystemUI
-          2 - Launch Camera
-  -->
-  <integer name="config_doubleTapOnHomeBehavior">2</integer>
-
   <string name="config_mms_user_agent" translatable="false">Nexus4</string>
   <string name="config_mms_user_agent_profile_url" translatable="false">http://gsm.lge.com/html/gsm/20130914.xml</string>
+
+  <!-- Allow the gesture to double tap the power button twice to start the camera while the device
+       is non-interactive. -->
+  <bool name="config_cameraDoubleTapPowerGestureEnabled">true</bool>
+
+  <!-- If true, the display will be shifted around in ambient mode. -->
+  <bool name="config_enableBurnInProtection">false</bool>
+
+  <!-- reference volume index for music stream to limit headphone volume and display warning -->
+  <integer name="config_safe_media_volume_index">5</integer>
+
+  <!-- Config determines whether to update phone object when voice registration
+       state changes. Voice radio tech change will always trigger an update of
+       phone object irrespective of this config -->
+  <bool name="config_switch_phone_on_voice_reg_state_change">false</bool>
+
+  <!-- Flag specifying whether VoLTE is available on device -->
+  <bool name="config_device_volte_available">false</bool>
+
+  <!-- Flag specifying whether VoLTE is available on device -->
+  <bool name="config_device_vt_available">false</bool>
+
+  <!-- Flag specifying whether WFC over IMS is available on device -->
+  <bool name="config_device_wfc_ims_available">false</bool>
+
+  <!-- Values for GPS configuration -->
+  <string-array translatable="false" name="config_gpsParameters">
+      <item>XTRA_SERVER_QUERY=0</item>
+      <item>SUPL_HOST=supl.google.com</item>
+      <item>SUPL_PORT=7275</item>
+      <item>XTRA_SERVER_1=http://xtra1.gpsonextra.net/xtra2.bin</item>
+      <item>XTRA_SERVER_2=http://xtra2.gpsonextra.net/xtra2.bin</item>
+      <item>XTRA_SERVER_3=http://xtra3.gpsonextra.net/xtra2.bin</item>
+      <item>NTP_SERVER=time.gpsonextra.net</item>
+      <item>SUPL_VER=0x10000</item>
+      <item>LPP_PROFILE=0</item>
+      <item>NMEA_PROVIDER=0</item>
+      <item>A_GLONASS_POS_PROTOCOL_SELECT=0</item>
+      <item>ERR_ESTIMATE=0</item>
+      <item>INTERMEDIATE_POS=0</item>
+  </string-array>
 </resources>

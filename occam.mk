@@ -35,6 +35,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.ril.def.preferred.network=3 \
 	ro.com.android.mobiledata=false \
 
+# Nexus 4 has no gesture sensor
+PRODUCT_PROPERTY_OVERRIDES += \
+	gesture.disable_camera_launch=1 \
+
 # override package for reduce system image
 PRODUCT_PACKAGES := \
 	EditorsDocsStub \
