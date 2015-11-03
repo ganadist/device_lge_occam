@@ -1,5 +1,6 @@
 #!/bin/sh
 KERNEL_OUT=${OUT}/obj/KERNEL_OBJ
+KERNEL_SRC=${ANDROID_BUILD_TOP}/kernel/msm
 
 kernel_make() {
   local CROSS_COMPILE
@@ -9,7 +10,7 @@ kernel_make() {
   fi
   (
     cd ${ANDROID_BUILD_TOP}
-    make -C kernel/msm O=${KERNEL_OUT} ARCH=arm \
+    make -C ${KERNEL_SRC} O=${KERNEL_OUT} ARCH=arm \
         CROSS_COMPILE="${CROSS_COMPILE}" -j$(getconf _NPROCESSORS_ONLN)  "$@"
   )
 
@@ -18,6 +19,11 @@ kernel_make() {
 kernel_build() {
   rm -rf ${KERNEL_OUT}
   mkdir -p ${KERNEL_OUT}
+  echo "install default kernel configs"
+  echo cp -f ${ANDROID_BUILD_TOP}/device/lge/occam/kernel/mako_defconfig \
+	  ${KERNEL_SRC}/arch/arm/configs/mako_defconfig
+  cp -f ${ANDROID_BUILD_TOP}/device/lge/occam/kernel/mako_defconfig \
+	  ${KERNEL_SRC}/arch/arm/configs/mako_defconfig
   kernel_make mrproper "$@" && \
       kernel_make mako_defconfig "$@" && \
       kernel_make zImage "$@" && \
