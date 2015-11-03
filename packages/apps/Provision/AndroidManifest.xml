@@ -16,7 +16,7 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	android:sharedUserId="android.uid.system"
-        package="ganachoco.android.provision.v20151029">
+        package="ganachoco.android.provision.v20151103">
 
     <!-- For miscellaneous settings -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />

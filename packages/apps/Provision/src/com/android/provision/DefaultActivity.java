@@ -61,6 +61,14 @@ public class DefaultActivity extends Activity {
             }
         }
 
+        // MDB08M workaround
+        // enable google dialer explicitly
+        try {
+            name = new ComponentName("com.google.android.dialer",
+                    "com.google.android.dialer.extensions.GoogleDialtactsActivity");
+            pm.setComponentEnabledSetting(name, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
+        } catch (Exception e) { }
+
         // remove this activity from the package manager.
         name = new ComponentName(this, DefaultActivity.class);
         pm.setComponentEnabledSetting(name, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,

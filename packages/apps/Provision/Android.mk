@@ -9,5 +9,6 @@ LOCAL_PACKAGE_NAME := FakeNexusProvision
 LOCAL_CERTIFICATE := platform
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
+#LOCAL_DEX_PREOPT := false
 
 include $(BUILD_PACKAGE)
