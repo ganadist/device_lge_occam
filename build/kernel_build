@@ -19,6 +19,7 @@ kernel_make() {
 kernel_build() {
   rm -rf ${KERNEL_OUT}
   mkdir -p ${KERNEL_OUT}
+  mkdir -p ${ANDROID_BUILD_TOP}/device/lge/mako-kernel/
   echo "install default kernel configs"
   echo cp -f ${ANDROID_BUILD_TOP}/device/lge/occam/kernel/mako_defconfig \
 	  ${KERNEL_SRC}/arch/arm/configs/mako_defconfig
@@ -27,6 +28,7 @@ kernel_build() {
   kernel_make mrproper "$@" && \
       kernel_make mako_defconfig "$@" && \
       kernel_make zImage "$@" && \
+
       cp -f ${KERNEL_OUT}/arch/arm/boot/zImage ${ANDROID_BUILD_TOP}/device/lge/mako-kernel/kernel
 }
 
