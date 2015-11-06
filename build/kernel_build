@@ -1,6 +1,7 @@
 #!/bin/sh
 KERNEL_OUT=${OUT}/obj/KERNEL_OBJ
 KERNEL_SRC=${ANDROID_BUILD_TOP}/kernel/msm
+MAKO_DEFCONFIG=${ANDROID_BUILD_TOP}/device/lge/occam/kernel/mako_defconfig
 
 kernel_make() {
   local CROSS_COMPILE
@@ -21,9 +22,7 @@ kernel_build() {
   mkdir -p ${KERNEL_OUT}
   mkdir -p ${ANDROID_BUILD_TOP}/device/lge/mako-kernel/
   echo "install default kernel configs"
-  echo cp -f ${ANDROID_BUILD_TOP}/device/lge/occam/kernel/mako_defconfig \
-	  ${KERNEL_SRC}/arch/arm/configs/mako_defconfig
-  cp -f ${ANDROID_BUILD_TOP}/device/lge/occam/kernel/mako_defconfig \
+  cp -f ${MAKO_DEFCONFIG} \
 	  ${KERNEL_SRC}/arch/arm/configs/mako_defconfig
   kernel_make mrproper "$@" && \
       kernel_make mako_defconfig "$@" && \
@@ -36,7 +35,8 @@ case "$@" in
   'mako_defconfig')
       kernel_make mrproper && \
           kernel_make mako_defconfig  && \
-          kernel_make savedefconfig
+          kernel_make savedefconfig && \
+          cp -f ${KERNEL_OUT}/defconfig ${MAKO_DEFCONFIG}
     ;;
   *)
     kernel_build "$@"
