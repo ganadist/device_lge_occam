@@ -1,0 +1,31 @@
+From 4deaebf3c9d7548fe8053a2d670d1f214e882958 Mon Sep 17 00:00:00 2001
+From: Young-Ho Cha <ganadist@gmail.com>
+Date: Sat, 7 Nov 2015 00:01:38 +0900
+Subject: [PATCH] hal: msm8960: add missing MAX_TARGET_SPECIFIC_CHANNEL_CNT
+
+On msm8960, MAX_TARGET_SPECIFIC_CHANNEL_CNT is missing.
+So, check_input_parameters() is always failed.
+
+Change-Id: I667ce54d4683c29ab06af17f2d2e0afdc911c1d1
+Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
+---
+ hal/Android.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/hal/Android.mk b/hal/Android.mk
+index 45b2cd9..5f3084f 100644
+--- a/hal/Android.mk
++++ b/hal/Android.mk
+@@ -29,6 +29,9 @@ ifneq ($(filter msm8994,$(TARGET_BOARD_PLATFORM)),)
+   LOCAL_CFLAGS += -DKPI_OPTIMIZE_ENABLED
+ endif
+ endif
++ifneq ($(filter msm8960,$(TARGET_BOARD_PLATFORM)),)
++  LOCAL_CFLAGS += -DMAX_TARGET_SPECIFIC_CHANNEL_CNT="2"
++endif
+ 
+ LOCAL_SRC_FILES := \
+ 	audio_hw.c \
+-- 
+2.6.2
+
