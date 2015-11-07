@@ -1,0 +1,30 @@
+From 92c40934a176e278ea637c46dbd98d829263a631 Mon Sep 17 00:00:00 2001
+From: Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>
+Date: Mon, 14 Sep 2015 11:00:33 +0200
+Subject: [PATCH] Fix setTorchMode support for the old HAL version
+
+CameraHardwareInterfaceFlashControl class calls disconnectCameraDevice
+when torch is disabled. This closes connection to the camera module,
+but mDevice instance is kept and variable is non-NULL which will
+prevent connection next time torch is going to be enabled.
+
+Change-Id: Icb1ffb07f05256afd92821f0f4908cda5332c05b
+---
+ services/camera/libcameraservice/CameraFlashlight.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/services/camera/libcameraservice/CameraFlashlight.cpp b/services/camera/libcameraservice/CameraFlashlight.cpp
+index 280bb9d..e42c596 100644
+--- a/services/camera/libcameraservice/CameraFlashlight.cpp
++++ b/services/camera/libcameraservice/CameraFlashlight.cpp
+@@ -878,6 +878,7 @@ status_t CameraHardwareInterfaceFlashControl::disconnectCameraDevice() {
+     }
+     mDevice->setPreviewWindow(NULL);
+     mDevice->release();
++    mDevice = NULL;
+ 
+     return OK;
+ }
+-- 
+2.6.1
+
