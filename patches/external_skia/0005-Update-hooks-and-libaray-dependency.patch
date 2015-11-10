@@ -1,0 +1,56 @@
+From af678ebd4bed63df3be0298443cbad27213c4fa5 Mon Sep 17 00:00:00 2001
+From: Xin Qi <xqi@codeaurora.org>
+Date: Wed, 23 Sep 2015 16:10:36 -0700
+Subject: [PATCH 5/7] Update hooks and libaray dependency
+
+Update  hooks and libaray dependency for extension
+
+Change-Id: I3fdfc7c19e6650eaee48179198a2e261344f5973
+---
+ Android.mk                            | 3 +++
+ src/images/SkImageDecoder_libjpeg.cpp | 5 ++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index 980c0f9..8ac7e34 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -608,6 +608,9 @@ LOCAL_STATIC_LIBRARIES := \
+ 
+ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+ 	LOCAL_WHOLE_STATIC_LIBRARIES += libqc-skia
++	LOCAL_SHARED_LIBRARIES += \
++		libqc-opt
++
+ endif
+ 
+ 
+diff --git a/src/images/SkImageDecoder_libjpeg.cpp b/src/images/SkImageDecoder_libjpeg.cpp
+index c42f214..3ae09da 100644
+--- a/src/images/SkImageDecoder_libjpeg.cpp
++++ b/src/images/SkImageDecoder_libjpeg.cpp
+@@ -241,11 +241,10 @@ protected:
+     bool onBuildTileIndex(SkStreamRewindable *stream, int *width, int *height) override;
+     bool onDecodeSubset(SkBitmap* bitmap, const SkIRect& rect) override;
+ #endif
+-    Result onDecode(SkStream* stream, SkBitmap* bm, Mode) override;
++    Result onDecode(SkStream* stream, SkBitmap* bm, Mode) override __attribute__((weak));
+     bool onDecodeYUV8Planes(SkStream* stream, SkISize componentSizes[3],
+                             void* planes[3], size_t rowBytes[3],
+                             SkYUVColorSpace* colorSpace) override;
+-
+ private:
+ #ifdef SK_BUILD_FOR_ANDROID
+     SkJPEGImageIndex* fImageIndex;
+@@ -1359,7 +1358,7 @@ static WriteScanline ChooseWriter(const SkBitmap& bm) {
+ 
+ class SkJPEGImageEncoder : public SkImageEncoder {
+ protected:
+-    virtual bool onEncode(SkWStream* stream, const SkBitmap& bm, int quality) {
++    virtual bool onEncode(SkWStream* stream, const SkBitmap& bm, int quality) __attribute__((weak)) {
+ #ifdef TIME_ENCODE
+         SkAutoTime atm("JPEG Encode");
+ #endif
+-- 
+2.6.2
+

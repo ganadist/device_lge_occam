@@ -1,0 +1,244 @@
+From 3bdf6a5bb0fe8502fac60ce7bd10599f6f4ad6b4 Mon Sep 17 00:00:00 2001
+From: Xin Qi <xqi@codeaurora.org>
+Date: Wed, 12 Jun 2013 13:14:24 -0700
+Subject: [PATCH 2/7] external/skia: Add QC hooks
+
+Add QC hooks blittering functions
+
+Change-Id: I9d72549ec23b9f5ed69e8337734b32cac165c83d
+---
+ Android.mk                      |  8 +++++++-
+ include/core/SkShader.h         |  8 ++++++++
+ src/core/SkBitmapProcShader.cpp |  9 +++++++++
+ src/core/SkBitmapProcShader.h   | 15 ++++++++++++++-
+ src/core/SkBitmapProcState.cpp  |  6 ++++++
+ src/core/SkBitmapProcState.h    | 10 ++++++++++
+ src/core/SkCoreBlitters.h       | 10 ++++++++--
+ src/core/SkShader.cpp           |  6 ++++++
+ src/opts/SkBlitRow_opts_arm.cpp | 14 ++++++++++++--
+ 9 files changed, 80 insertions(+), 6 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index dedce5a..7a5489d 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -597,7 +597,8 @@ LOCAL_SHARED_LIBRARIES := \
+ 	libicuuc \
+ 	libicui18n \
+ 	libexpat \
+-	libft2
++	libft2 \
++	libcutils
+ 
+ LOCAL_STATIC_LIBRARIES := \
+ 	libgif \
+@@ -605,6 +606,11 @@ LOCAL_STATIC_LIBRARIES := \
+ 	libwebp-encode \
+ 	libsfntly
+ 
++ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
++	LOCAL_WHOLE_STATIC_LIBRARIES += libqc-skia
++endif
++
++
+ LOCAL_C_INCLUDES := \
+ 	external/jpeg \
+ 	external/libpng \
+diff --git a/include/core/SkShader.h b/include/core/SkShader.h
+index 4c4dba3..4004922 100644
+--- a/include/core/SkShader.h
++++ b/include/core/SkShader.h
+@@ -154,6 +154,14 @@ public:
+          *  to the specified device coordinates.
+          */
+         virtual void shadeSpan(int x, int y, SkPMColor[], int count) = 0;
++        enum SkShaderIds {
++            kSkBitmapProcShader_Class = 0x1,
++            kSkShader_OtherClass      = 0x2,
++        };
++
++        virtual void beginRect(int x, int y, int width);
++        virtual void endRect();
++        virtual SkShaderIds getID() { return kSkShader_OtherClass; }
+ 
+         typedef void (*ShadeProc)(void* ctx, int x, int y, SkPMColor[], int count);
+         virtual ShadeProc asAShadeProc(void** ctx);
+diff --git a/src/core/SkBitmapProcShader.cpp b/src/core/SkBitmapProcShader.cpp
+index 9d18119..7b05aa7 100644
+--- a/src/core/SkBitmapProcShader.cpp
++++ b/src/core/SkBitmapProcShader.cpp
+@@ -39,6 +39,15 @@ SkBitmapProcShader::SkBitmapProcShader(const SkBitmap& src, TileMode tmx, TileMo
+     fTileModeY = (uint8_t)tmy;
+ }
+ 
++
++void SkBitmapProcShader::BitmapProcShaderContext::beginRect(int x, int y, int width) {
++    fState->beginRect(x, y, width);
++}
++
++void SkBitmapProcShader::BitmapProcShaderContext::endRect() {
++    fState->endRect();
++}
++
+ SkShader::BitmapType SkBitmapProcShader::asABitmap(SkBitmap* texture,
+                                                    SkMatrix* texM,
+                                                    TileMode xy[]) const {
+diff --git a/src/core/SkBitmapProcShader.h b/src/core/SkBitmapProcShader.h
+index bdb2d4d..79cc7d9 100644
+--- a/src/core/SkBitmapProcShader.h
++++ b/src/core/SkBitmapProcShader.h
+@@ -14,6 +14,13 @@
+ #include "SkBitmapProcState.h"
+ #include "SkSmallAllocator.h"
+ 
++#ifdef QC_STRONG
++#define QC_WEAK
++#else
++#define QC_WEAK __attribute__((weak))
++#endif
++
++
+ class SkBitmapProcShader : public SkShader {
+ public:
+     SkBitmapProcShader(const SkBitmap& src, TileMode tx, TileMode ty,
+@@ -41,7 +48,13 @@ public:
+         BitmapProcShaderContext(const SkBitmapProcShader&, const ContextRec&, SkBitmapProcState*);
+         virtual ~BitmapProcShaderContext();
+ 
+-        void shadeSpan(int x, int y, SkPMColor dstC[], int count) override;
++        // override beginRect and endRect
++        virtual void beginRect(int x, int y, int width);
++        virtual void endRect();
++
++        virtual SkShaderIds getID() { return kSkBitmapProcShader_Class; }
++
++        void shadeSpan(int x, int y, SkPMColor dstC[], int count) override QC_WEAK;
+         ShadeProc asAShadeProc(void** ctx) override;
+         void shadeSpan16(int x, int y, uint16_t dstC[], int count) override;
+ 
+diff --git a/src/core/SkBitmapProcState.cpp b/src/core/SkBitmapProcState.cpp
+index 0b50fbc..e9a9284 100644
+--- a/src/core/SkBitmapProcState.cpp
++++ b/src/core/SkBitmapProcState.cpp
+@@ -831,6 +831,12 @@ SkBitmapProcState::ShaderProc32 SkBitmapProcState::chooseShaderProc32() {
+     return NULL;
+ }
+ 
++void SkBitmapProcState::beginRect(int x, int y, int width) {
++}
++
++void SkBitmapProcState::endRect() {
++}
++
+ ///////////////////////////////////////////////////////////////////////////////
+ 
+ #ifdef SK_DEBUG
+diff --git a/src/core/SkBitmapProcState.h b/src/core/SkBitmapProcState.h
+index 36e1ae0..9874349 100644
+--- a/src/core/SkBitmapProcState.h
++++ b/src/core/SkBitmapProcState.h
+@@ -14,6 +14,11 @@
+ #include "SkMipMap.h"
+ #include "SkPaint.h"
+ 
++#ifdef QC_STRONG
++#define QC_WEAK
++#else
++#define QC_WEAK __attribute__((weak))
++#endif
+ typedef SkFixed3232    SkFractionalInt;
+ #define SkScalarToFractionalInt(x)  SkScalarToFixed3232(x)
+ #define SkFractionalIntToFixed(x)   SkFixed3232ToFixed(x)
+@@ -111,6 +116,11 @@ struct SkBitmapProcState {
+     SampleProc32 getSampleProc32() const { return fSampleProc32; }
+     SampleProc16 getSampleProc16() const { return fSampleProc16; }
+ 
++    /* Perform rectaingle geometry specific setup/cleanup */
++    void beginRect(int x, int y, int width) QC_WEAK;
++    void endRect() QC_WEAK;
++    void *              fOptPtr;
++
+ private:
+     friend class SkBitmapProcShader;
+ 
+diff --git a/src/core/SkCoreBlitters.h b/src/core/SkCoreBlitters.h
+index 18821dc..909c50e 100644
+--- a/src/core/SkCoreBlitters.h
++++ b/src/core/SkCoreBlitters.h
+@@ -14,6 +14,12 @@
+ #include "SkShader.h"
+ #include "SkSmallAllocator.h"
+ 
++#ifdef QC_STRONG
++#define QC_WEAK
++#else
++#define QC_WEAK __attribute__((weak))
++#endif
++
+ class SkRasterBlitter : public SkBlitter {
+ public:
+     SkRasterBlitter(const SkBitmap& device) : fDevice(device) {}
+@@ -165,9 +171,9 @@ public:
+     SkARGB32_Shader_Blitter(const SkBitmap& device, const SkPaint& paint,
+                             SkShader::Context* shaderContext);
+     virtual ~SkARGB32_Shader_Blitter();
+-    void blitH(int x, int y, int width) override;
++    void blitH(int x, int y, int width) override QC_WEAK;
+     void blitV(int x, int y, int height, SkAlpha alpha) override;
+-    void blitRect(int x, int y, int width, int height) override;
++    void blitRect(int x, int y, int width, int height) override QC_WEAK;
+     void blitAntiH(int x, int y, const SkAlpha[], const int16_t[]) override;
+     void blitMask(const SkMask&, const SkIRect&) override;
+ 
+diff --git a/src/core/SkShader.cpp b/src/core/SkShader.cpp
+index f146345..d38840a 100644
+--- a/src/core/SkShader.cpp
++++ b/src/core/SkShader.cpp
+@@ -52,6 +52,12 @@ SkShader::~SkShader() {
+     dec_shader_counter();
+ }
+ 
++void SkShader::Context::beginRect(int x, int y, int width) {
++}
++
++void SkShader::Context::endRect() {
++}
++
+ void SkShader::flatten(SkWriteBuffer& buffer) const {
+     this->INHERITED::flatten(buffer);
+     bool hasLocalM = !fLocalMatrix.isIdentity();
+diff --git a/src/opts/SkBlitRow_opts_arm.cpp b/src/opts/SkBlitRow_opts_arm.cpp
+index 9dd4b3b..86a176d 100644
+--- a/src/opts/SkBlitRow_opts_arm.cpp
++++ b/src/opts/SkBlitRow_opts_arm.cpp
+@@ -378,8 +378,14 @@ static const SkBlitRow::Proc32 sk_blitrow_platform_32_procs_arm[] = {
+ 
+ #endif // USE_ARM_CODE
+ 
++extern SkBlitRow::Proc32 skia_androidopt_PlatformProcs32(unsigned flags) __attribute__((weak));
++extern SkBlitRow::Proc16 skia_androidopt_PlatformProcs565(unsigned flags) __attribute__((weak));
+ SkBlitRow::Proc16 SkBlitRow::PlatformFactory565(unsigned flags) {
+-    return SK_ARM_NEON_WRAP(sk_blitrow_platform_565_procs_arm)[flags];
++    if (skia_androidopt_PlatformProcs565 && skia_androidopt_PlatformProcs565(flags) ) {
++        return  skia_androidopt_PlatformProcs565(flags);
++    } else {
++        return SK_ARM_NEON_WRAP(sk_blitrow_platform_565_procs_arm)[flags];
++    }
+ }
+ 
+ SkBlitRow::ColorProc16 SkBlitRow::PlatformColorFactory565(unsigned flags) {
+@@ -387,6 +393,10 @@ SkBlitRow::ColorProc16 SkBlitRow::PlatformColorFactory565(unsigned flags) {
+ }
+ 
+ SkBlitRow::Proc32 SkBlitRow::PlatformProcs32(unsigned flags) {
+-    return SK_ARM_NEON_WRAP(sk_blitrow_platform_32_procs_arm)[flags];
++    if (skia_androidopt_PlatformProcs32 && skia_androidopt_PlatformProcs32(flags) ) {
++        return  skia_androidopt_PlatformProcs32(flags);
++    } else {
++        return SK_ARM_NEON_WRAP(sk_blitrow_platform_32_procs_arm)[flags];
++    }
+ }
+ 
+-- 
+2.6.2
+
