@@ -1,0 +1,67 @@
+From 5f47a3216f3a3e7d8e721bac733f68eb4a392507 Mon Sep 17 00:00:00 2001
+From: Thomas Buhot <thomas.buhot@intel.com>
+Date: Fri, 2 Oct 2015 14:12:12 +0200
+Subject: [PATCH 4/5] libhwui: make surface buffer allocation asynchronous
+
+On the critical path of the cold launch of applications
+the main thread of the started application allocates
+the surface buffer. The allocation is synchronous and blocks
+the main thread of the application.
+As a consequence the launch time of the application is delayed
+by the time spent doing the allocation.
+
+With this optimization the allocation is performed
+asynchronously in the RenderThread. This optimization
+will benefit to the launch of all applications.
+
+Change-Id: I4bc145cfc3ba6fe1efbca519bcee2e4ea6617ae7
+Signed-off-by: Thomas Buhot <thomas.buhot@intel.com>
+Signed-off-by: Zhiquan Liu <zhiquan.liu@intel.com>
+---
+ core/java/android/view/ViewRootImpl.java | 6 ------
+ libs/hwui/renderthread/CanvasContext.cpp | 5 +++++
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/core/java/android/view/ViewRootImpl.java b/core/java/android/view/ViewRootImpl.java
+index 42402eb..97476f2 100644
+--- a/core/java/android/view/ViewRootImpl.java
++++ b/core/java/android/view/ViewRootImpl.java
+@@ -1721,12 +1721,6 @@ public final class ViewRootImpl implements ViewParent,
+                             try {
+                                 hwInitialized = mAttachInfo.mHardwareRenderer.initialize(
+                                         mSurface);
+-                                if (hwInitialized && (host.mPrivateFlags
+-                                        & View.PFLAG_REQUEST_TRANSPARENT_REGIONS) == 0) {
+-                                    // Don't pre-allocate if transparent regions
+-                                    // are requested as they may not be needed
+-                                    mSurface.allocateBuffers();
+-                                }
+                             } catch (OutOfResourcesException e) {
+                                 handleOutOfResourcesException(e);
+                                 return;
+diff --git a/libs/hwui/renderthread/CanvasContext.cpp b/libs/hwui/renderthread/CanvasContext.cpp
+index 6dfb6e8..33eb3f1 100644
+--- a/libs/hwui/renderthread/CanvasContext.cpp
++++ b/libs/hwui/renderthread/CanvasContext.cpp
+@@ -31,6 +31,7 @@
+ #include <strings.h>
+ #include <cutils/properties.h>
+ #include <private/hwui/DrawGlInfo.h>
++#include <gui/Surface.h>
+ 
+ #define TRIM_MEMORY_COMPLETE 80
+ #define TRIM_MEMORY_UI_HIDDEN 20
+@@ -115,6 +116,10 @@ bool CanvasContext::initialize(ANativeWindow* window) {
+     if (mCanvas) return false;
+     mCanvas = new OpenGLRenderer(mRenderThread.renderState());
+     mCanvas->initProperties();
++    if (window) {
++        Surface *s = static_cast<Surface*>(window);
++        s->allocateBuffers();
++    }
+     return true;
+ }
+ 
+-- 
+2.6.2
+
