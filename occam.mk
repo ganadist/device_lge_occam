@@ -64,6 +64,9 @@ PRODUCT_PACKAGES += \
 	CellBroadcastReceiver \
 	OccamLayout \
 
+PRODUCT_PACKAGES += \
+	Stk
+
 PRODUCT_COPY_FILES := \
 	device/lge/occam/init.occam.rc:root/init.occam.rc \
 
