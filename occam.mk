@@ -65,7 +65,9 @@ PRODUCT_PACKAGES += \
 	OccamLayout \
 
 PRODUCT_PACKAGES += \
-	Stk
+	Stk \
+	GCS \
+	NfcProvision \
 
 PRODUCT_COPY_FILES := \
 	device/lge/occam/init.occam.rc:root/init.occam.rc \
