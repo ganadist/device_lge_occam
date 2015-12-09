@@ -1,7 +1,7 @@
-From 0ae177721ebfffbe7724ccffc5193a3417983f68 Mon Sep 17 00:00:00 2001
+From cad0ead8d4b6527bc68eb35be837c065caa4adb6 Mon Sep 17 00:00:00 2001
 From: Young-Ho Cha <ganadist@gmail.com>
 Date: Fri, 16 Oct 2015 13:27:58 +0900
-Subject: [PATCH 1/3] policy: fix initial value for mDoubleTapOnHomeBehavior
+Subject: [PATCH 1/4] policy: fix initial value for mDoubleTapOnHomeBehavior
 
 Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
-index 489bcdb..92dbe00 100644
+index 0d96ca6..f983d87 100644
 --- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
 +++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
-@@ -1560,7 +1560,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -1586,7 +1586,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                  com.android.internal.R.integer.config_doubleTapOnHomeBehavior);
          if (mDoubleTapOnHomeBehavior < DOUBLE_TAP_HOME_NOTHING ||
                  mDoubleTapOnHomeBehavior > DOUBLE_TAP_HOME_RECENT_SYSTEM_UI) {
@@ -22,5 +22,5 @@ index 489bcdb..92dbe00 100644
      }
  
 -- 
-2.6.1
+2.6.3
 

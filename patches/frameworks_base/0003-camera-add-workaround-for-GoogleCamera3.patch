@@ -1,7 +1,7 @@
-From 1d54a2b920092871b632e5aebdf454b7daad151f Mon Sep 17 00:00:00 2001
+From 7436ded9cc7bf609b41d5f7ad16f694a903e4d76 Mon Sep 17 00:00:00 2001
 From: Young-Ho Cha <ganadist@gmail.com>
 Date: Sat, 21 Nov 2015 18:07:00 +0900
-Subject: [PATCH 5/5] camera: add workaround for GoogleCamera3
+Subject: [PATCH 3/4] camera: add workaround for GoogleCamera3
 
 Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
 ---
@@ -24,5 +24,5 @@ index 5573896..31d96e8 100644
  
      /**
 -- 
-2.6.2
+2.6.3
 
