@@ -20,5 +20,11 @@ do
   done
 done
 
+# Add developer option to include reboot in global actions menu
+cd $ANDROID_BUILD_TOP/frameworks/base
+git fetch https://android.googlesource.com/platform/frameworks/base refs/changes/72/184272/4 && git cherry-pick FETCH_HEAD
+cd $ANDROID_BUILD_TOP/packages/apps/Settings
+git fetch https://android.googlesource.com/platform/packages/apps/Settings refs/changes/69/183769/3 && git cherry-pick FETCH_HEAD
+
 rm -rf ${TOP}/hardware/qcom/gps/msm8084
 rm -rf ${TOP}/hardware/qcom/gps/msm8974
