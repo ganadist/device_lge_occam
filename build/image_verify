@@ -1,0 +1,24 @@
+#!/usr/bin/env python2
+
+import os, sys
+
+OUT = os.getenv('OUT')
+SYSTEM = os.path.join(OUT, 'system')
+ROOT = os.path.join(OUT, 'root')
+DIRNAME = os.path.dirname(__file__)
+FILENAME = os.path.join(DIRNAME, 'filelist.txt')
+
+def get_filelist():
+    l = []
+    for r in (ROOT, SYSTEM):
+        for root, d, files in os.walk(r):
+            if not files: continue
+            root = root[len(OUT)+1:]
+            l.extend([ os.path.join(root, f) for f in files ])
+    l.sort()
+    return l
+
+if __name__ == '__main__':
+    with file(FILENAME, 'w') as f:
+        f.write('\n'.join(get_filelist()))
+    os.system('git diff ' + FILENAME)
