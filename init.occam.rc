@@ -1,1 +1,55 @@
+on post-fs-data
+    # <-- HellSpawn Tweaks BEGIN -->
 
+    # Disable mpdecision service to prevent conflicts with other hotplug drivers
+    stop mpdecision
+
+    # Disable thermald service
+    stop thermald
+
+    # HellsActive Tweaks
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "hellsactive"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "hellsactive"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "hellsactive"
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "hellsactive"
+    write /sys/devices/system/cpu/cpufreq/hellsactive/above_hispeed_delay 20000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/align_windows 1
+    write /sys/devices/system/cpu/cpufreq/hellsactive/boostpulse_duration 1000000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/closest_freq_selection 0
+    write /sys/devices/system/cpu/cpufreq/hellsactive/freq_calc_thresh 94500
+    write /sys/devices/system/cpu/cpufreq/hellsactive/go_hispeed_load 99
+    write /sys/devices/system/cpu/cpufreq/hellsactive/hispeed_freq 1134000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/input_boost_freq 1026000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/hellsactive/max_freq_hysteresis 0
+    write /sys/devices/system/cpu/cpufreq/hellsactive/min_sample_time 80000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/target_loads 90
+    write /sys/devices/system/cpu/cpufreq/hellsactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/timer_slack 80000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/two_phase_freq 1350000,1350000,1350000,1350000
+    write /sys/devices/system/cpu/cpufreq/hellsactive/use_freq_calc_thresh 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 384000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 384000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 384000
+    write /sys/devices/system/cpu/cpu0/cpufreq/screen_off_max_freq 1026000
+    write /sys/devices/system/cpu/cpu1/cpufreq/screen_off_max_freq 1026000
+    write /sys/devices/system/cpu/cpu2/cpufreq/screen_off_max_freq 1026000
+    write /sys/devices/system/cpu/cpu3/cpufreq/screen_off_max_freq 1026000
+
+    # Set GPU governor to simple
+    write /sys/class/kgsl/kgsl-3d0/pwrscale/trustzone/governor simple
+
+    # Disable alucard-hotplug
+    write /sys/kernel/alucard_hotplug/hotplug_enable 0
+
+    # Disable mako-hotplug
+    write /sys/class/misc/mako_hotplug_control/enabled 0
+
+    # Enable autosmp-hotplug
+    write /sys/module/autosmp/parameters/enabled Y
+
+    # Disable lazy-hotplug
+    /sys/module/lazyplug/parameters/lazyplug_active 0
+
+    # <-- HellSpawn Tweaks END -->
