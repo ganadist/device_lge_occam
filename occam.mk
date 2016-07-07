@@ -53,6 +53,7 @@ PRODUCT_PACKAGES := \
 	DriveStub \
 	FitnessPrebuiltStub \
 	MapsStub \
+	PhotosStub \
 	PlusOneStub \
 	TranslateStub \
 	VideosStub \
