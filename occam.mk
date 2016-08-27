@@ -41,28 +41,31 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # override package for reduce system image
 PRODUCT_PACKAGES := \
-	DeviceAssistStub \
+	BooksStub \
+	CalendarGooglePrebuiltStub \
+	CloudPrint2Stub \
+	DriveStub \
 	EditorsDocsStub \
 	EditorsSheetsStub \
 	EditorsSlidesStub \
-	NewsstandStub \
-	HangoutsStub \
-	PrebuiltKeepStub \
-	BooksStub \
-	CloudPrint2Stub \
-	DriveStub \
 	FitnessPrebuiltStub \
+	HangoutsStub \
 	MapsStub \
+	Music2Stub \
+	NewsstandStub \
 	PhotosStub \
+	PlayGamesStub \
 	PlusOneStub \
+	PrebuiltKeepStub \
 	TranslateStub \
 	VideosStub \
+	WebViewGoogleStub \
 	YouTubeStub \
 
 PRODUCT_PACKAGES += \
-	FakeNexusProvision \
 	PartnerBookmarksProvider \
 	CellBroadcastReceiver \
+	NexusLauncherPrebuilt \
 	OccamLayout \
 	Stk \
 
@@ -105,7 +108,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # reduce system image size
 PRODUCT_AAPT_CONFIG := normal
 
-PRODUCT_DEFAULT_DEV_CERTIFICATE := device/lge/occam/security/release-keys
+PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/ganachoco/build/security/release-keys
 
 PRODUCT_NAME := occam
 PRODUCT_BRAND := Google
@@ -113,3 +116,8 @@ PRODUCT_MODEL := Nexus 4
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 	ro.product.name=$(PRODUCT_NAME) \
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.product.first_api_level=17
+
+PRODUCT_RESTRICT_VENDOR_FILES :=

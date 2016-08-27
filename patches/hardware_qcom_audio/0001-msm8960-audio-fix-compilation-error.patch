@@ -1,0 +1,50 @@
+From ea01183c14c9377e53789b99189b0766d8dd34ff Mon Sep 17 00:00:00 2001
+From: Young-Ho Cha <ganadist@gmail.com>
+Date: Sat, 27 Aug 2016 23:11:33 +0900
+Subject: [PATCH] msm8960: audio: fix compilation error
+
+Change-Id: I5620e07b76e34d20f2e3872c004c1f07fe212723
+Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
+---
+ hal/msm8960/platform.c | 3 ++-
+ hal/msm8960/platform.h | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/hal/msm8960/platform.c b/hal/msm8960/platform.c
+index 6a934c4..5969542 100644
+--- a/hal/msm8960/platform.c
++++ b/hal/msm8960/platform.c
+@@ -1097,7 +1097,8 @@ int platform_get_snd_device_name_extn(void *platform __unused,
+ }
+ 
+ bool platform_check_and_set_capture_backend_cfg(struct audio_device* adev __unused,
+-                                              struct audio_usecase *usecase __unused)
++                                              struct audio_usecase *usecase __unused,
++					      snd_device_t snd_device __unused)
+ {
+     return false;
+ }
+diff --git a/hal/msm8960/platform.h b/hal/msm8960/platform.h
+index b879c0b..af1f694 100644
+--- a/hal/msm8960/platform.h
++++ b/hal/msm8960/platform.h
+@@ -92,6 +92,8 @@ enum {
+ 
+ };
+ 
++#define DEVICE_NAME_MAX_SIZE   128
++
+ #define MIXER_CARD 0
+ #define SOUND_CARD 0
+ #define MIXER_PATH_MAX_LENGTH 100
+@@ -125,5 +127,7 @@ enum {
+ #define AFE_PROXY_PLAYBACK_PCM_DEVICE 7
+ #define AFE_PROXY_RECORD_PCM_DEVICE 8
+ 
++#define PLATFORM_INFO_XML_PATH          "/system/etc/audio_platform_info.xml"
++#define PLATFORM_INFO_XML_BASE_STRING   "/system/etc/audio_platform_info"
+ 
+ #endif // QCOM_AUDIO_PLATFORM_H
+-- 
+2.9.3
+
