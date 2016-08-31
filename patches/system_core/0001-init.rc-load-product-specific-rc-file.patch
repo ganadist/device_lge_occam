@@ -1,15 +1,15 @@
-From bab8cb7796ebcf9a9bee5507ef7764a6a1707917 Mon Sep 17 00:00:00 2001
-From: Young-Ho Cha <ganadist@gmail.com>
-Date: Sat, 31 Oct 2015 14:28:54 +0900
+From 9a09881e7c19a54cca5fabbe0b4165c15d3d0594 Mon Sep 17 00:00:00 2001
+From: YOUNG HO CHA <ganadist@gmail.com>
+Date: Tue, 30 Aug 2016 09:20:34 +0900
 Subject: [PATCH] init.rc: load product specific rc file
 
-Signed-off-by: Young-Ho Cha <ganadist@gmail.com>
+Signed-off-by: YOUNG HO CHA <ganadist@gmail.com>
 ---
  rootdir/init.rc | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8ea72e8..4595a1d 100644
+index 3466dce..0caea3e 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -7,6 +7,7 @@
@@ -19,7 +19,7 @@ index 8ea72e8..4595a1d 100644
 +import /init.${ro.product.name}.rc
  import /init.usb.configfs.rc
  import /init.${ro.zygote}.rc
- import /init.trace.rc
+ 
 -- 
-2.6.2
+2.9.3
 
