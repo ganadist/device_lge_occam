@@ -42,21 +42,21 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # override package for reduce system image
 PRODUCT_PACKAGES := \
 	BooksStub \
-	CalendarGooglePrebuiltStub \
-	CloudPrint2Stub \
+	CalendarGoogleStub \
+	CloudPrintStub \
 	DriveStub \
 	EditorsDocsStub \
 	EditorsSheetsStub \
 	EditorsSlidesStub \
-	FitnessPrebuiltStub \
+	FitStub \
 	HangoutsStub \
+	KeepStub \
 	MapsStub \
 	Music2Stub \
 	NewsstandStub \
 	PhotosStub \
 	PlayGamesStub \
 	PlusOneStub \
-	PrebuiltKeepStub \
 	TranslateStub \
 	VideosStub \
 	WebViewGoogleStub \
@@ -65,7 +65,7 @@ PRODUCT_PACKAGES := \
 PRODUCT_PACKAGES += \
 	PartnerBookmarksProvider \
 	CellBroadcastReceiver \
-	NexusLauncherPrebuilt \
+	NexusLauncher \
 	OccamLayout \
 	Stk \
 
