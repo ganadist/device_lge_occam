@@ -1,4 +1,4 @@
-From 5f8dd0863d19aed8d15309c7907bc3b0b718d1ff Mon Sep 17 00:00:00 2001
+From f49746575309ae52f56daafd9a093ba073ff8f3f Mon Sep 17 00:00:00 2001
 From: YOUNG HO CHA <ganadist@gmail.com>
 Date: Wed, 31 Aug 2016 11:15:26 +0900
 Subject: [PATCH 2/2] linker: allow text relocation to mm-qcamera-daemon for

@@ -1,4 +1,4 @@
-From dbaf04bca2978d52d387c2bc04e64bff3fd6f359 Mon Sep 17 00:00:00 2001
+From 138f9bca8cdbf60a33697f8f0f8269d6fbb49f00 Mon Sep 17 00:00:00 2001
 From: YOUNG HO CHA <ganadist@gmail.com>
 Date: Wed, 31 Aug 2016 09:58:16 +0900
 Subject: [PATCH 1/2] libc_pthread: do not use clang on mako build
@@ -7,22 +7,19 @@ To allow to run sensor service
 
 Signed-off-by: YOUNG HO CHA <ganadist@gmail.com>
 ---
- libc/Android.mk | 5 +++++
- 1 file changed, 5 insertions(+)
+ libc/Android.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/libc/Android.mk b/libc/Android.mk
-index 1ca84c1..34b14ee 100644
+index 1ca84c1..40dd7fc 100644
 --- a/libc/Android.mk
 +++ b/libc/Android.mk
-@@ -1071,7 +1071,12 @@ LOCAL_CONLYFLAGS := $(libc_common_conlyflags)
+@@ -1071,7 +1071,8 @@ LOCAL_CONLYFLAGS := $(libc_common_conlyflags)
  LOCAL_CPPFLAGS := $(libc_common_cppflags) -Wold-style-cast
  LOCAL_C_INCLUDES := $(libc_common_c_includes)
  LOCAL_MODULE := libc_pthread
-+ifeq ($(PRODUCT_DEVICE),mako)
+-LOCAL_CLANG := $(use_clang)
 +LOCAL_CLANG := false
-+else
- LOCAL_CLANG := $(use_clang)
-+endif
 +
  LOCAL_ADDITIONAL_DEPENDENCIES := $(libc_common_additional_dependencies)
  LOCAL_CXX_STL := none
