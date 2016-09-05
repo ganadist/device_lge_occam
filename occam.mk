@@ -54,6 +54,7 @@ PRODUCT_PACKAGES := \
 	MapsStub \
 	Music2Stub \
 	NewsstandStub \
+	NewsWeatherStub \
 	PhotosStub \
 	PlayGamesStub \
 	PlusOneStub \
