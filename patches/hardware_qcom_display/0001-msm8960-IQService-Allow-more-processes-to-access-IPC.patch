@@ -1,0 +1,44 @@
+From 5d0f04d909b5ebd5c0a2e2c6d4543beed7581efa Mon Sep 17 00:00:00 2001
+From: zaclimon <isaacpateau05@gmail.com>
+Date: Thu, 1 Sep 2016 13:02:56 -0400
+Subject: [PATCH] msm8960: IQService: Allow more processes to access IPC
+
+As Android 7.0 has separated mediaserver into different processes,
+one of them, mediacodec, cannot access to the IPC anymore.
+
+Fix this by allowing more processes to be able to access it.
+
+Based on msm8994:
+https://android.googlesource.com/platform/hardware/qcom/display/+/android-7.0.0_r1/msm8994/libqservice/IQService.cpp#88
+---
+ msm8960/libqservice/IQService.cpp | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/msm8960/libqservice/IQService.cpp b/msm8960/libqservice/IQService.cpp
+index d9aa735..b764a1d 100644
+--- a/msm8960/libqservice/IQService.cpp
++++ b/msm8960/libqservice/IQService.cpp
+@@ -82,7 +82,7 @@ static void getProcName(int pid, char *buf, int size);
+ status_t BnQService::onTransact(
+     uint32_t code, const Parcel& data, Parcel* reply, uint32_t flags)
+ {
+-    // IPC should be from mediaserver only
++    // IPC should be from certain processes only
+     IPCThreadState* ipc = IPCThreadState::self();
+     const int callerPid = ipc->getCallingPid();
+     const int callerUid = ipc->getCallingUid();
+@@ -91,7 +91,10 @@ status_t BnQService::onTransact(
+ 
+     getProcName(callerPid, callingProcName, MAX_BUF_SIZE);
+ 
+-    const bool permission = (callerUid == AID_MEDIA);
++    const bool permission = (callerUid == AID_MEDIA ||
++            callerUid == AID_GRAPHICS ||
++            callerUid == AID_ROOT ||
++            callerUid == AID_SYSTEM);
+ 
+     switch(code) {
+         case SECURING: {
+-- 
+2.9.3
+
