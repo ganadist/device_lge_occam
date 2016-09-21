@@ -13,31 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-PRODUCT_PACKAGE_OVERLAYS := \
-	device/lge/occam/overlay-occam \
-	device/lge/occam/overlay-nexus \
-	device/lge/occam/overlay-gms \
-
-#	device/lge/occam/overlay-car \
-
-PRODUCT_PROPERTY_OVERRIDES := \
-	ro.com.android.dateformat=MM-dd-yyyy \
-	ro.com.android.dataroaming=false \
-	net.bt.name=Nexus4 \
-	ro.config.ringtone=Titania.ogg \
-	ro.config.notification_sound=Tethys.ogg \
-	ro.config.alarm_alert=Oxygen.ogg \
-
-#	persist.sys.debug.multi_window=1 \ # enable multi window
-
-PRODUCT_PROPERTY_OVERRIDES += \
-	ro.telephony.default_network=3 \
-	ro.ril.def.preferred.network=3 \
-	ro.com.android.mobiledata=false \
-
-# Nexus 4 has no gesture sensor
-PRODUCT_PROPERTY_OVERRIDES += \
-	gesture.disable_camera_launch=1 \
 
 # override package for reduce system image
 PRODUCT_PACKAGES := \
@@ -66,20 +41,53 @@ PRODUCT_PACKAGES := \
 PRODUCT_PACKAGES += \
 	PartnerBookmarksProvider \
 	CellBroadcastReceiver \
-	NexusLauncher \
-	OccamLayout \
 	Stk \
 
-PRODUCT_COPY_FILES := \
-	device/lge/occam/init.occam.rc:root/init.occam.rc \
+PRODUCT_PACKAGES += \
+	FakeNexusLayout \
+	FakeNexusProvision \
 
-$(call inherit-product, vendor/google/product/gms.mk)
-$(call inherit-product, vendor/google/product/gms-nexus.mk)
-$(call inherit-product, vendor/google/product/facelock.mk)
-$(call inherit-product, vendor/google/product/mediaeffect.mk)
-$(call inherit-product, vendor/google/product/bootanimation.mk)
+PRODUCT_PACKAGES += \
+	mpcpusetd \
+
+PRODUCT_PACKAGE_OVERLAYS := \
+	device/lge/occam/overlay-occam \
+
+$(call inherit-product, vendor/fake_nexus/product/fake_nexus.mk)
 $(call inherit-product, device/lge/mako/full_mako.mk)
-$(call inherit-product, device/lge/occam/AudioPackage.mk)
+
+PRODUCT_PROPERTY_OVERRIDES += \
+	keyguard.no_require_sim=true \
+
+$(call inherit-product, vendor/google/product/facelock.mk)
+
+PRODUCT_PROPERTY_OVERRIDES += \
+	af.fast_track_multiplier=1 \
+	ro.build.expect.bootloader=MAKOZ30f \
+	ro.build.expect.baseband=M9615A-CEFWMAZM-2.0.1701.07 \
+	ro.product.first_api_level=17 \
+
+# reduce system image size
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_PREBUILT_DPI := xhdpi hdpi
+
+PRODUCT_BRAND := google
+PRODUCT_MODEL := Nexus 4
+PRODUCT_NAME := occam
+
+PRODUCT_RESTRICT_VENDOR_FILES := false
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	ro.product.name=$(PRODUCT_NAME) \
+
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.telephony.default_network=3 \
+	ro.ril.def.preferred.network=3 \
+
+# Nexus 4 has no gesture sensor
+PRODUCT_PROPERTY_OVERRIDES += \
+	gesture.disable_camera_launch=1 \
 
 ifeq ($(TARGET_BUILD_VARIANT),user)
   PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -100,25 +108,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.hwui.text_large_cache_width=2048 \
 	ro.hwui.text_large_cache_height=1024 \
 
-PRODUCT_PROPERTY_OVERRIDES += \
-	keyguard.no_require_sim=true \
-	af.fast_track_multiplier=1 \
-	ro.build.expect.bootloader=MAKOZ30f \
-	ro.build.expect.baseband=M9615A-CEFWMAZM-2.0.1701.07 \
-
-# reduce system image size
-PRODUCT_AAPT_CONFIG := normal
-
-PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/fake_nexus/build/security/release-keys
-
-PRODUCT_NAME := occam
-PRODUCT_BRAND := Google
-PRODUCT_MODEL := Nexus 4
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	ro.product.name=$(PRODUCT_NAME) \
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.product.first_api_level=17
-
-PRODUCT_RESTRICT_VENDOR_FILES :=
