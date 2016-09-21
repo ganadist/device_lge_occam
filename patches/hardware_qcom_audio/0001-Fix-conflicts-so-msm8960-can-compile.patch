@@ -1,0 +1,48 @@
+From 68682129da16a1cfa41d7ec738dfec745ccb9352 Mon Sep 17 00:00:00 2001
+From: zaclimon <isaacpateau05@gmail.com>
+Date: Thu, 25 Aug 2016 09:26:01 -0400
+Subject: [PATCH 1/2] Fix conflicts so msm8960 can compile
+
+---
+ hal/msm8960/platform.c | 4 ++--
+ hal/msm8960/platform.h | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/hal/msm8960/platform.c b/hal/msm8960/platform.c
+index 6a934c4..56a0f7f 100644
+--- a/hal/msm8960/platform.c
++++ b/hal/msm8960/platform.c
+@@ -1096,8 +1096,8 @@ int platform_get_snd_device_name_extn(void *platform __unused,
+     return 0;
+ }
+ 
+-bool platform_check_and_set_capture_backend_cfg(struct audio_device* adev __unused,
+-                                              struct audio_usecase *usecase __unused)
++bool platform_check_and_set_capture_backend_cfg(struct audio_device* adev,
++                   struct audio_usecase *usecase, snd_device_t snd_device)
+ {
+     return false;
+ }
+diff --git a/hal/msm8960/platform.h b/hal/msm8960/platform.h
+index b879c0b..253175a 100644
+--- a/hal/msm8960/platform.h
++++ b/hal/msm8960/platform.h
+@@ -110,6 +110,8 @@ enum {
+ #define LOW_LATENCY_OUTPUT_PERIOD_SIZE 240
+ #define LOW_LATENCY_OUTPUT_PERIOD_COUNT 2
+ 
++#define DEVICE_NAME_MAX_SIZE 128
++
+ #define HDMI_MULTI_PERIOD_SIZE  336
+ #define HDMI_MULTI_PERIOD_COUNT 8
+ #define HDMI_MULTI_DEFAULT_CHANNEL_COUNT 6
+@@ -126,4 +128,6 @@ enum {
+ #define AFE_PROXY_RECORD_PCM_DEVICE 8
+ 
+ 
++#define PLATFORM_INFO_XML_PATH          "/system/etc/audio_platform_info.xml"
++#define PLATFORM_INFO_XML_BASE_STRING   "/system/etc/audio_platform_info"
+ #endif // QCOM_AUDIO_PLATFORM_H
+-- 
+2.10.0
+

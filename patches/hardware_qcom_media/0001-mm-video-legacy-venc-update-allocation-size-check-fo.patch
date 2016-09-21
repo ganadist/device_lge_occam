@@ -1,0 +1,34 @@
+From 011d2cde0d4ed828141ce5946b5effabd740864f Mon Sep 17 00:00:00 2001
+From: Praveen Chavan <pchavan@codeaurora.org>
+Date: Sun, 11 Sep 2016 10:53:01 -0400
+Subject: [PATCH] mm-video-legacy: venc: update allocation-size check for
+ meta-buffer
+
+Metadata buffer |MetadataBufferType|buffer_handle_t| size can be
+8 or 16 bytes on 32-bit or 64-bit respectively. Update the check
+which always assumes 32-bit size.
+
+bug: 22487196
+
+Based on:
+https://android.googlesource.com/platform/hardware/qcom/media/+/7d6e61888e010bbe79878827a3a593699e9a2595
+---
+ msm8974/mm-video-legacy/vidc/venc/src/omx_video_base.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/msm8974/mm-video-legacy/vidc/venc/src/omx_video_base.cpp b/msm8974/mm-video-legacy/vidc/venc/src/omx_video_base.cpp
+index 2b62fa1..cbda5b4 100644
+--- a/msm8974/mm-video-legacy/vidc/venc/src/omx_video_base.cpp
++++ b/msm8974/mm-video-legacy/vidc/venc/src/omx_video_base.cpp
+@@ -2618,7 +2618,7 @@ OMX_ERRORTYPE omx_video::allocate_input_meta_buffer(
+                     OMX_U32              bytes)
+ {
+   unsigned index = 0;
+-  if(!bufferHdr || bytes != sizeof(encoder_media_buffer_type))
++  if(!bufferHdr || bytes < sizeof(encoder_media_buffer_type))
+   {
+     DEBUG_PRINT_ERROR("wrong params allocate_input_meta_buffer Hdr %p len %d",
+                      bufferHdr,bytes);
+-- 
+2.10.0
+

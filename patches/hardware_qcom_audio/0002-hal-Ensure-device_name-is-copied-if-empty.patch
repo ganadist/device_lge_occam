@@ -1,0 +1,54 @@
+From 1f368945209aebae0c79718d322680559fdc3eb4 Mon Sep 17 00:00:00 2001
+From: zaclimon <isaacpateau05@gmail.com>
+Date: Sun, 28 Aug 2016 13:53:25 -0400
+Subject: [PATCH 2/2] hal: Ensure device_name is copied if empty
+
+For an unknown reason, an msm8960 device name gets empty even
+though the value is correct platform side. Fix this copying
+again directly if it's empty.
+
+We don't have to worry about checking if it's valid since a check
+has been performed before regarding it's validity.
+---
+ hal/audio_hw.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/hal/audio_hw.c b/hal/audio_hw.c
+index a6395f4..b0ed79b 100644
+--- a/hal/audio_hw.c
++++ b/hal/audio_hw.c
+@@ -356,6 +356,16 @@ int enable_snd_device(struct audio_device *adev,
+             goto on_error;
+         }
+ 
++        /*
++         * For some unknown reason, the device name gets empty for
++         * msm8960 devices. Because we're sure that the sound device is valid,
++         * copy it manually and apply the correct route. 
++        */
++
++        if (strlen(device_name) == 0) {
++            strcpy(device_name, platform_get_snd_device_name(snd_device));
++        }
++
+         ALOGV("%s: snd_device(%d: %s)", __func__, snd_device, device_name);
+         audio_route_apply_and_update_path(adev->audio_route, device_name);
+     }
+@@ -400,6 +410,14 @@ int disable_snd_device(struct audio_device *adev,
+                 return -EINVAL;
+             }
+ 
++            /*
++             * Same reason as in enable_snd_device()
++             */
++
++            if (strlen(device_name) == 0) {
++                strcpy(device_name, platform_get_snd_device_name(snd_device));
++            }
++
+             ALOGV("%s: snd_device(%d: %s)", __func__, snd_device, device_name);
+             audio_route_reset_and_update_path(adev->audio_route, device_name);
+         }
+-- 
+2.10.0
+
