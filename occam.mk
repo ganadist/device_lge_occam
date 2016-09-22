@@ -14,38 +14,8 @@
 # limitations under the License.
 #
 
-# override package for reduce system image
 PRODUCT_PACKAGES := \
-	BooksStub \
-	CalendarGoogleStub \
-	CloudPrintStub \
-	DriveStub \
-	EditorsDocsStub \
-	EditorsSheetsStub \
-	EditorsSlidesStub \
-	FitStub \
-	HangoutsStub \
-	KeepStub \
-	MapsStub \
-	Music2Stub \
-	NewsstandStub \
-	NewsWeatherStub \
-	PhotosStub \
-	PlayGamesStub \
-	PlusOneStub \
-	TranslateStub \
-	VideosStub \
-	WebViewGoogleStub \
-	YouTubeStub \
-
-PRODUCT_PACKAGES += \
-	PartnerBookmarksProvider \
-	CellBroadcastReceiver \
 	Stk \
-
-PRODUCT_PACKAGES += \
-	FakeNexusLayout \
-	FakeNexusProvision \
 
 PRODUCT_PACKAGES += \
 	mpcpusetd \
@@ -53,6 +23,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGE_OVERLAYS := \
 	device/lge/occam/overlay-occam \
 
+$(call inherit-product, vendor/google/product/gapps-stubs.mk)
 $(call inherit-product, vendor/fake_nexus/product/fake_nexus.mk)
 $(call inherit-product, device/lge/mako/full_mako.mk)
 
@@ -88,12 +59,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Nexus 4 has no gesture sensor
 PRODUCT_PROPERTY_OVERRIDES += \
 	gesture.disable_camera_launch=1 \
-
-ifeq ($(TARGET_BUILD_VARIANT),user)
-  PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	ro.adb.secure=1 \
-
-endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.hwui.texture_cache_size=48 \
