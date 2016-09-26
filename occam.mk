@@ -73,6 +73,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.hwui.text_large_cache_width=2048 \
 	ro.hwui.text_large_cache_height=1024 \
 
-# set display size to large as default
-PRODUCT_PROPERTY_OVERRIDES += \
-	ro.config.density_override=352
