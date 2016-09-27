@@ -38,6 +38,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.build.expect.baseband=M9615A-CEFWMAZM-2.0.1701.07 \
 	ro.product.first_api_level=17 \
 
+PRODUCT_PROPERTY_OVERRIDES += \
+	media.stagefright.legacyencoder=1 \
+
 # reduce system image size
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
